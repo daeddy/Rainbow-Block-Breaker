@@ -1,0 +1,21 @@
+{
+  "name": "rainbow-particle-breaker",
+  "version": "1.0.0",
+  "description": "pwa version of http://wonderfl.net/c/tNGi",
+  "main": "index.js",
+  "author": "daeddy <daeddy64@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --mode production",
+    "start": "webpack serve --mode production --progress --color",
+    "dev": "webpack-dev-server --mode development --color"
+  },
+  "devDependencies": {
+    "html-webpack-plugin": "^5.5.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.2",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0"
+  }
+}
