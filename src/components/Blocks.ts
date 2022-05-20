@@ -6,7 +6,7 @@ class Blocks {
   private _width: number;
   private _height: number;
   
-  count() { return this._count; }
+  count(): number { return this._count; }
   width(): number { return this._width; }
   height(): number { return this._height; }
 

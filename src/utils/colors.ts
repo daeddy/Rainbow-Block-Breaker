@@ -4,6 +4,8 @@ export type RGBColor = {
   blue: number
 }
 
+export const DEFAULT_COLOR: RGBColor = { red: 0xFF, green: 0xFF, blue: 0xFF };
+
 // https://en.wikipedia.org/wiki/HSL_and_HSV#:~:text=8%2CH))%3D%2B1%7D-,HSV%20to%20RGB,-%5Bedit%5D
 const HSVToRGB = (hue: number, saturation: number, value: number): RGBColor => {
   if (
@@ -37,6 +39,8 @@ const HSVToRGB = (hue: number, saturation: number, value: number): RGBColor => {
   if (h >= 5 && h < 6) {
     return { red: c  * 255, green: 0, blue: x * 255 };
   }
+
+  return DEFAULT_COLOR;
 }
 
 /*

@@ -1,12 +1,12 @@
-import { RGBColor } from "utils/colors";
+import { RGBColor, DEFAULT_COLOR } from "utils/colors";
 
 class Particle {
   x: number;
   y: number;
 
-  vx: number = 0;
-  vy: number = 0;
-  color: RGBColor = { red: 255, green: 255, blue: 255 };
+  xSpeed: number = 0;
+  ySpeed: number = 0;
+  color: RGBColor = DEFAULT_COLOR;
 
   constructor(x: number = 0, y: number = 0, color: RGBColor) {
     this.x = x;
@@ -19,6 +19,12 @@ class Particle {
   }
   public Y(): number {
     return Math.round(this.y);
+  }
+  public speed(): number {
+    return Math.sqrt(this.xSpeed * this.xSpeed + this.xSpeed * this.xSpeed)
+  }
+  public radian(): number { 
+    return Math.atan2(this.ySpeed, this.xSpeed)
   }
 }
 
