@@ -208,7 +208,7 @@ class BlockBreaker {
         canvas.addEventListener('mousemove', this.mousemove.bind(this), false);
         canvas.addEventListener('touchmove', this.touchmove.bind(this), false);
 
-        this.init();
+        // this.init();
     }
 }
 

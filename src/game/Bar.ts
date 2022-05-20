@@ -5,16 +5,16 @@ class Bar {
   height:number = 10;
 
   hitTestPoint(x:number, y:number):boolean {
-      if (x >= this.x && x <= this.x + this.width && y >= this.y  && this.y <= this.y + this.height) {
-          return true;
-      } else {
-          return false;
-      }
+    if (x >= this.x && x <= this.x + this.width && y >= this.y  && this.y <= this.y + this.height) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   constructor(width:number, height:number) {
-      this.width = width;
-      this.height = height;
+    this.width = width;
+    this.height = height;
   }
 }
 
