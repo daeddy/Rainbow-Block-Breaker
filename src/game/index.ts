@@ -16,7 +16,17 @@ class BlockBreaker {
   private _then!: number;
   private _elapsed!: number;
 
-  public update = () => {
+  private _handleWin() {
+    alert("Done!\n");
+    this.init();
+  }
+
+  private _handleLose() {
+    alert("Try again");
+    this.init();
+  }
+
+  private _update() {
     this._now = Date.now();
     this._elapsed = this._now - this._then;
 
@@ -120,13 +130,11 @@ class BlockBreaker {
       }
 
       if (this._blocks.count() == 0) {
-        alert("Done!\n");
-        this.init();
+        this._handleWin();
       } else if (this._balls.length == 0) {
-        alert("Try again");
-        this.init();
+        this._handleLose();
       } else {
-        window.requestAnimationFrame(this.update.bind(this));
+        window.requestAnimationFrame(this._update.bind(this));
       }
 
       // bar renders independant of fps constraint
@@ -134,7 +142,7 @@ class BlockBreaker {
     }
   }
 
-  public touchmove = (evt: any) => {
+  private _touchmove(evt: any) {
     this._bar.x = evt.touches[0].clientX - this._canvas.offsetLeft() - (this._bar.width / 2);
     if (this._bar.x + this._bar.width > this._width) {
       this._bar.x = this._width - this._bar.width;
@@ -145,7 +153,7 @@ class BlockBreaker {
     evt.preventDefault();
   }
 
-  public mousemove = (evt: any) => {
+  private _mousemove(evt: any) {
     this._bar.x = evt.clientX - this._canvas.offsetLeft() - (this._bar.width / 2);
     if (this._bar.x + this._bar.width > this._width) {
       this._bar.x = this._width - this._bar.width;
@@ -155,7 +163,7 @@ class BlockBreaker {
     }
   }
 
-  public init = () => {
+  public init() {
     this._blocks = new Blocks(this._width, 200);
 
     this._fallBlocks = new Array();
@@ -175,7 +183,7 @@ class BlockBreaker {
     this._fpsInterval = 1000 / this._fps;
     this._then = Date.now();
 
-    window.requestAnimationFrame(this.update.bind(this));
+    window.requestAnimationFrame(this._update.bind(this));
   }
 
   constructor(container: HTMLDivElement, canvas: HTMLCanvasElement, width: number, height: number) {
@@ -184,10 +192,8 @@ class BlockBreaker {
     this._canvas = new GameCanvas(canvas);
 
     // Controll is the entire container area 
-    container.addEventListener('mousemove', this.mousemove.bind(this), false);
-    container.addEventListener('touchmove', this.touchmove.bind(this), false);
-
-    this.init();
+    container.addEventListener('mousemove', this._mousemove.bind(this), false);
+    container.addEventListener('touchmove', this._touchmove.bind(this), false);
   }
 }
 
