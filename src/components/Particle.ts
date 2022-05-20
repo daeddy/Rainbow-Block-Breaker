@@ -14,6 +14,12 @@ class Particle {
     this.color = color;
   }
 
+  public invertXDirection() {
+    this.xSpeed = -this.xSpeed;
+  }
+  public invertYDirection() {
+    this.ySpeed = -this.ySpeed;
+  }
   public X(): number {
     return Math.round(this.x);
   }

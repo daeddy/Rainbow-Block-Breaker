@@ -1,12 +1,10 @@
 import { Blocks, Particle, Bar, GameCanvas } from 'components';
-import { DEFAULT_COLOR, RGBColor } from 'utils/colors';
+import { DEFAULT_COLOR } from 'utils/colors';
 
 class BlockBreaker {
   private _height: number;
   private _width: number;
   private _canvas: GameCanvas;
-  private _imgData!: ImageData;
-  private _pixels!: Uint8ClampedArray;
   private _blocks!: Blocks;
   private _fallBlocks!: Particle[];
   private _balls!: Particle[];
@@ -18,8 +16,6 @@ class BlockBreaker {
   private _then!: number;
   private _elapsed!: number;
 
-  // clear
-  // dr
   public update = () => {
     this._now = Date.now();
     this._elapsed = this._now - this._then;
@@ -60,16 +56,16 @@ class BlockBreaker {
                 this._fallBlocks.push(removedP);
               }
               // colliding ball inverts y-direction
-              ball.ySpeed = -ball.ySpeed;
+              ball.invertYDirection();
             }
 
             // if ball hit the edges invert x-direction
             if ((ball.x < 0 && ball.xSpeed < 0) || (ball.x > this._width && ball.xSpeed > 0)) {
-              ball.xSpeed = -ball.xSpeed;
+              ball.invertXDirection();
             }
             // if ball out of bounds (top) invert y-direction
             if (ball.y < 0 && ball.ySpeed < 0) {
-              ball.ySpeed = -ball.ySpeed;
+              ball.invertYDirection();
             }
             // if ball out of bounds (bottom) remove
             if (ball.y > this._height || ball.y < 0) {

@@ -8,15 +8,16 @@ class Bar {
   height: number = 10;
   color: RGBColor = BAR_COLOR
 
-  hitTestPoint(x:number, y:number):boolean {
-    if (x >= this.x && x <= this.x + this.width && y >= this.y  && this.y <= this.y + this.height) {
-      return true;
-    } else {
-      return false;
-    }
+  hitTestPoint(x:number, y:number): boolean {
+    return (
+      x >= this.x && 
+      x <= this.x + this.width && 
+      y >= this.y && 
+      y <= this.y + this.height
+    );
   }
 
-  constructor(x: number, y: number, width:number, height:number) {
+  constructor(x: number, y: number, width: number, height: number) {
     this.x = x;
     this.y = y;
     this.width = width;
