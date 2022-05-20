@@ -1,5 +1,5 @@
 import Particle from './Particle';
-import ColorHSV from 'utils/colors';
+import { getRainbowColors } from 'utils/colors';
 
 class Blocks {
   private _count: number;
@@ -17,12 +17,11 @@ class Blocks {
     this._height = height;
     this._count = width * height;
     this.values = new Array(width * height);
-    var c: ColorHSV = new ColorHSV();
+
+    const rainbowColors = getRainbowColors(this._width);
     for (var i: number = 0; i < this._width; i++) {
-      c.h = 360 * i / this._width;
       for (var j: number = 0; j < this._height; j++) {
-        var p: Particle = new Particle(i, j);
-        p.color = c.value();
+        var p: Particle = new Particle(i, j, rainbowColors[i]);
         this.values[i + j * this._width] = p;
       }
     }

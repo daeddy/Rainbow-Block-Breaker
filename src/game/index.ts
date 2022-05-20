@@ -33,9 +33,9 @@ class BlockBreaker {
           if (block) {
             //_canvas.setPixel(block.x, block.y, block.color);
             var idx = ((block.y * widthBase) + (block.x * 4));
-            data[idx] = block.color[0]; //R
-            data[idx + 1] = block.color[1]; //G
-            data[idx + 2] = block.color[2]; //B
+            data[idx] = block.color.red; //R
+            data[idx + 1] = block.color.green; //G
+            data[idx + 2] = block.color.blue; //B
             data[idx + 3] = 0xFF; //A
           }
         });
@@ -79,9 +79,9 @@ class BlockBreaker {
 
             //_canvas.setPixel(ball.x, ball.y, ball.color);\
             var idx = (ball.Y() * widthBase) + (ball.X() * 4);
-            data[idx] = ball.color[0]; //R
-            data[idx + 1] = ball.color[1]; //G
-            data[idx + 2] = ball.color[2]; //B
+            data[idx] = ball.color.red; //R
+            data[idx + 1] = ball.color.green; //G
+            data[idx + 2] = ball.color.blue; //B
             data[idx + 3] = 0xFF; //A
           }
         });
@@ -103,16 +103,15 @@ class BlockBreaker {
           fallP.y += fallP.vy;
           //_canvas.setPixel(fallP.x, fallP.y, fallP.color);
           var idx = ((fallP.Y() * widthBase) + (fallP.X() * 4));
-          data[idx] = fallP.color[0]; //R
-          data[idx + 1] = fallP.color[1]; //G
-          data[idx + 2] = fallP.color[2]; //B
+          data[idx] = fallP.color.red; //R
+          data[idx + 1] = fallP.color.green; //G
+          data[idx + 2] = fallP.color.blue; //B
           data[idx + 3] = 0xFF; //A
 
           if (this._bar.hitTestPoint(fallP.x, fallP.y)) {
-            var newball: Particle = new Particle(fallP.x, fallP.y);
+            var newball: Particle = new Particle(fallP.x, fallP.y, fallP.color);
             newball.vx = Math.random() * 10;
             newball.vy = Math.random() * 9 + 1;
-            newball.color = fallP.color;
             this._balls.push(newball);
             removeFallBs.push(fallP);
           } else if (fallP.y > this._height) {
@@ -134,9 +133,9 @@ class BlockBreaker {
       if (this._blocks.count() == 0) {
         alert("Done!\n");
         this.init();
-      } else if (this._balls.length == 0) {
-        alert("Try again");
-        this.init();
+      // } else if (this._balls.length == 0) {
+      //   alert("Try again");
+      //   this.init();
       } else {
         window.requestAnimationFrame(this.update.bind(this));
       }
@@ -183,13 +182,12 @@ class BlockBreaker {
     this._bar = new Bar(200, 10);
     this._bar.y = this._height - this._bar.height - 2;
 
-    var _ball: Particle = new Particle(this._width / 2, this._height / 2);
+    var _ball: Particle = new Particle(this._width / 2, this._height / 2, { red: 0xFF, green: 0xFF, blue: 0xFF });
     _ball.vx = Math.random() * 10;
     _ball.vy = -Math.random() * 9 - 1;
-    _ball.color = [0xFF, 0xFF, 0xFF];
 
     this._balls = new Array();
-    this._balls.push(_ball);
+    // this._balls.push(_ball);
 
     this._fpsInterval = 1000 / this._fps;
     this._then = Date.now();
