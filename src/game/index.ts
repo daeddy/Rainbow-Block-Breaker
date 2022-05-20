@@ -1,6 +1,4 @@
-import Blocks from './Blocks';
-import Particle from './Particle';
-import Bar from './Bar';
+import { Blocks, Particle, Bar } from 'components';
 
 class BlockBreaker {
   private _height: number;
@@ -129,15 +127,15 @@ class BlockBreaker {
           }
         });
 
-        //描画
+        // Draw
         this._ctx.putImageData(this._data, 0, 0);
       }
 
       if (this._blocks.count() == 0) {
-        alert("CLEAR!\nおめでと");
+        alert("Done!\n");
         this.init();
       } else if (this._balls.length == 0) {
-        alert("ゲームオーバー");
+        alert("Try again");
         this.init();
       } else {
         window.requestAnimationFrame(this.update.bind(this));

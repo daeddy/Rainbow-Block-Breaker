@@ -11,7 +11,7 @@ class ColorHSV {
     if (s == 0) return [v * 255, v * 255, v * 255];
 
     var rgb: number[] = [];
-    var i = Math.floor(h);;
+    var i = Math.floor(h);
     var f = h - i;
     var v1 = v * (1 - s);
     var v2 = v * (1 - s * f);

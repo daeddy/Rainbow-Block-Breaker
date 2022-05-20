@@ -1,4 +1,4 @@
-import BlockBreaker from './game/BlockBreaker';
+import BlockBreaker from './game';
 
 window.addEventListener("load", (e) => {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;

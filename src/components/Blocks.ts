@@ -1,14 +1,17 @@
 import Particle from './Particle';
-import ColorHSV from './ColorHSV';
+import ColorHSV from 'utils/colors';
 
 class Blocks {
   private _count: number;
-  count() { return this._count; }
   private _width: number;
-  width(): number { return this._width; }
   private _height: number;
+  
+  count() { return this._count; }
+  width(): number { return this._width; }
   height(): number { return this._height; }
+
   values: (Particle | undefined)[];
+
   constructor(width: number, height: number) {
     this._width = width;
     this._height = height;
@@ -24,6 +27,7 @@ class Blocks {
       }
     }
   }
+
   getParticle(x: number, y: number): Particle | undefined {
     var index: number = x + y * this._width;
     if (index >= this.values.length || index < 0) {
@@ -31,6 +35,7 @@ class Blocks {
     }
     return this.values[x + y * this._width];
   }
+
   removeParticle(x: number, y: number): Particle | undefined {
     var p: Particle | undefined = this.values[x + y * this._width];
     if (p) {
