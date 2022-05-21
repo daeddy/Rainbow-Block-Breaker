@@ -56,7 +56,7 @@
 
 HTML5 Block breaker game, just try to clean the board and watch the colors!
 
-A friend sent me a link to this game a long time ago (~2014) It was hosted on some Japanese website. A the time I was curious about the implementation so I save the source code. Years later (2021) I found the source code and tried to find the game again (through links in the source code), but all links were dead. I decided to re-implement this game in typescript and host it publicly so that the game can continue to be shared!
+A friend sent me a link to this game a long time ago (~2014) It was hosted on some Japanese website. At the time I was curious about the implementation so I saved the source code. Years later (2021) I found the source code and tried to find the game again (through links in the source code), but all links were dead. I decided to re-implement this game in typescript and host it publicly so that the game can continue to be shared!
 
 There aren't any licensing issues as the original code has an MIT license, so please feel free to copy/modify.
 
@@ -145,16 +145,16 @@ Unfortunateley the orignal game page is down, so I'm not exactly sure who the cr
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
-[contributors-shield]: https://img.shields.io/github/contributors/daeddy/Rainbow-Block-Breaker.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/daeddy/Rainbow-Block-Breaker.svg?style=flat&logo=appveyor
 [contributors-url]: https://github.com/daeddy/Rainbow-Block-Breaker/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/daeddy/Rainbow-Block-Breaker.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/daeddy/Rainbow-Block-Breaker.svg?style=flat&logo=appveyor
 [forks-url]: https://github.com/daeddy/Rainbow-Block-Breaker/network/members
-[stars-shield]: https://img.shields.io/github/stars/daeddy/Rainbow-Block-Breaker.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/daeddy/Rainbow-Block-Breaker.svg?style=flat&logo=appveyor
 [stars-url]: https://github.com/daeddy/Rainbow-Block-Breaker/stargazers
-[issues-shield]: https://img.shields.io/github/issues/daeddy/Rainbow-Block-Breaker.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/daeddy/Rainbow-Block-Breaker.svg?style=flat&logo=appveyor
 [issues-url]: https://github.com/daeddy/Rainbow-Block-Breaker/issues
-[license-shield]: https://img.shields.io/github/license/daeddy/Rainbow-Block-Breaker.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/daeddy/Rainbow-Block-Breaker.svg?style=flat&logo=appveyor
 [license-url]: https://github.com/daeddy/Rainbow-Block-Breaker/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat&logo=appveyor&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/eport030
 [product-screenshot]: images/screenshot.jpg
