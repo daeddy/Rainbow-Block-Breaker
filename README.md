@@ -18,7 +18,7 @@
   <p align="center">
     Typescript implementation of a cool game I found a long time ago.
     <br />
-    <a href="daeddy.github.io"><strong>Try it!</strong></a>
+    <a href="https://daeddy.github.io" target="_blank"><strong>Try it!</strong></a>
     <br />
     <br />
     <a href="https://github.com/daeddy/Rainbow-Block-Breaker/issues">Report Bug</a>
