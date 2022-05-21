@@ -1,9 +1,8 @@
-import { Blocks, Particle, Bar, GameCanvas } from 'components';
+import { Blocks, Particle, Bar } from 'components';
 import { DEFAULT_COLOR } from 'utils/colors';
+import GameCanvas from './GameCanvas';
 
 class BlockBreaker {
-  private _height: number;
-  private _width: number;
   private _canvas: GameCanvas;
   private _blocks!: Blocks;
   private _fallBlocks!: Particle[];
@@ -70,7 +69,7 @@ class BlockBreaker {
             }
 
             // if ball hit the edges invert x-direction
-            if ((ball.x < 0 && ball.xSpeed < 0) || (ball.x > this._width && ball.xSpeed > 0)) {
+            if ((ball.x < 0 && ball.xSpeed < 0) || (ball.x > this._canvas.width && ball.xSpeed > 0)) {
               ball.invertXDirection();
             }
             // if ball out of bounds (top) invert y-direction
@@ -78,7 +77,7 @@ class BlockBreaker {
               ball.invertYDirection();
             }
             // if ball out of bounds (bottom) remove
-            if (ball.y > this._height || ball.y < 0) {
+            if (ball.y > this._canvas.height || ball.y < 0) {
               removeBalls.push(ball);
             }
             // if it hit the bar invert direction
@@ -102,7 +101,7 @@ class BlockBreaker {
           fallP.ySpeed += 0.1;
           fallP.x += fallP.xSpeed;
           if (fallP.x < 0) {
-            fallP.x += this._width;
+            fallP.x += this._canvas.width;
           }
           fallP.y += fallP.ySpeed;
           this._canvas.setPixel(fallP.X(), fallP.Y(), fallP.color);
@@ -113,7 +112,7 @@ class BlockBreaker {
             newball.ySpeed = Math.random() * 9 + 1;
             this._balls.push(newball);
             removeFallBs.push(fallP);
-          } else if (fallP.y > this._height) {
+          } else if (fallP.y > this._canvas.height) {
             removeFallBs.push(fallP);
           }
         });
@@ -144,8 +143,8 @@ class BlockBreaker {
 
   private _touchmove(evt: any) {
     this._bar.x = evt.touches[0].clientX - this._canvas.offsetLeft() - (this._bar.width / 2);
-    if (this._bar.x + this._bar.width > this._width) {
-      this._bar.x = this._width - this._bar.width;
+    if (this._bar.x + this._bar.width > this._canvas.width) {
+      this._bar.x = this._canvas.width - this._bar.width;
     }
     if (this._bar.x < 0) {
       this._bar.x = 0;
@@ -155,8 +154,8 @@ class BlockBreaker {
 
   private _mousemove(evt: any) {
     this._bar.x = evt.clientX - this._canvas.offsetLeft() - (this._bar.width / 2);
-    if (this._bar.x + this._bar.width > this._width) {
-      this._bar.x = this._width - this._bar.width;
+    if (this._bar.x + this._bar.width > this._canvas.width) {
+      this._bar.x = this._canvas.width - this._bar.width;
     }
     if (this._bar.x < 0) {
       this._bar.x = 0;
@@ -164,16 +163,16 @@ class BlockBreaker {
   }
 
   public init() {
-    this._blocks = new Blocks(this._width, 200);
+    this._blocks = new Blocks(this._canvas.width, 200);
 
     this._fallBlocks = new Array();
 
     const barHeight = 10;
-    const barY = this._height - barHeight - 2;
+    const barY = this._canvas.height - barHeight - 2;
     this._bar = new Bar(0, barY, 200, barHeight);
 
     // Start with white ball in the middle
-    var _initialBall: Particle = new Particle(this._width / 2, this._height / 2, DEFAULT_COLOR);
+    var _initialBall: Particle = new Particle(this._canvas.width / 2, this._canvas.height / 2, DEFAULT_COLOR);
     _initialBall.xSpeed = Math.random() * 10;
     _initialBall.ySpeed = Math.random() * 9 - 1;
 
@@ -186,9 +185,7 @@ class BlockBreaker {
     window.requestAnimationFrame(this._update.bind(this));
   }
 
-  constructor(container: HTMLDivElement, canvas: HTMLCanvasElement, width: number, height: number) {
-    this._width = width;
-    this._height = height;
+  constructor(container: HTMLDivElement, canvas: HTMLCanvasElement) {
     this._canvas = new GameCanvas(canvas);
 
     // Controll is the entire container area 
