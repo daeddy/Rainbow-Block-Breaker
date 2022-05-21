@@ -18,6 +18,7 @@ const HSVToRGB = (hue: number, saturation: number, value: number): RGBColor => {
   const h = hue/60;
 
   const c = value * saturation; // Chroma
+
   // Intermediate value X for the second largest component of this color
   const x = c * (1 - Math.abs(h % 2 - 1));
 

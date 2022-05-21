@@ -6,10 +6,14 @@ export default class GameCanvas {
   private _canvasCtx: CanvasRenderingContext2D | null;
   private _imgData!: ImageData;
   private _pixels!: Uint8ClampedArray;
+  readonly width: number;
+  readonly height: number;
 
   constructor(canvas: HTMLCanvasElement) {
     this._canvas = canvas;
     this._canvasCtx = this._canvas.getContext("2d");
+    this.width = this._canvas.width;
+    this.height = this._canvas.height;
     this.clear();
   }
 
