@@ -8,7 +8,7 @@ class Bar {
   height: number = 10;
   color: RGBColor = BAR_COLOR
 
-  hitTestPoint(x:number, y:number): boolean {
+  collided(x:number, y:number): boolean {
     return (
       x >= this.x && 
       x <= this.x + this.width && 

@@ -5,8 +5,9 @@ import GameCanvas from './GameCanvas';
 class BlockBreaker {
   private _canvas: GameCanvas;
   private _blocks!: Blocks;
-  private _fallBlocks!: Particle[];
-  private _balls!: Particle[];
+  private _blocksAreaHeight: number;
+  private _fallBlocks!: Set<Particle>;
+  private _balls!: Set<Particle>;
   private _bar!: Bar;
   // fps stuff
   private _fps: number = 30;
@@ -25,6 +26,25 @@ class BlockBreaker {
     this.init();
   }
 
+  private _drawMovingParticle(particle: Particle, particleSet: Set<Particle>) {
+    // if out of bounds remove
+    if (particle.y > this._canvas.height || particle.y < 0) {
+      particleSet.delete(particle);
+    } 
+    // if particle hit the edges (sides) invert x-direction
+    else if ((particle.x < 0 && particle.xSpeed < 0) || (particle.x > this._canvas.width && particle.xSpeed > 0)) {
+      particle.invertXDirection();
+    }
+    // if particle out of bounds (top) invert y-direction
+    else if (particle.y < 0 && particle.ySpeed < 0) {
+      particle.invertYDirection();
+    }
+    // in boundry, draw particle pixel
+    else {
+      this._canvas.setPixel(particle.X(), particle.Y(), particle.color);
+    }
+  }
+
   private _update() {
     this._now = Date.now();
     this._elapsed = this._now - this._then;
@@ -37,17 +57,16 @@ class BlockBreaker {
 
         this._canvas.clear();
 
-        // render blocks
+        // set block pixels
         this._blocks.values.forEach(block => {
           if (block) {
             this._canvas.setPixel(block.x, block.y, block.color);
           }
         });
 
-        var removeBalls: Particle[] = new Array();
+        // set ball pixels
         this._balls.forEach(ball => {
           var bSpeed: number = ball.speed();
-          var bRadian: number = ball.radian();
 
           // Render a line of length speed
           for (var i = 0; i < bSpeed; i++) {
@@ -58,79 +77,49 @@ class BlockBreaker {
             if (hitParticle) {
               var removedP: Particle | undefined = this._blocks.removeParticle(ball.X(), ball.Y());
               if (removedP) {
-                // hit particle moves at an angle from the coliding ball
-                removedP.xSpeed = Math.cos(bRadian + Math.PI * 2 / (30 * Math.random()) - 15) * 3;
+                // hit ball moves at an angle from the coliding ball
+                removedP.xSpeed = Math.cos(ball.radian() + Math.PI * 2 / (30 * Math.random()) - 15) * 3;
                 removedP.ySpeed = 1;
                 removedP.color = hitParticle.color;
-                this._fallBlocks.push(removedP);
+                this._fallBlocks.add(removedP);
               }
               // colliding ball inverts y-direction
               ball.invertYDirection();
             }
-
-            // if ball hit the edges invert x-direction
-            if ((ball.x < 0 && ball.xSpeed < 0) || (ball.x > this._canvas.width && ball.xSpeed > 0)) {
-              ball.invertXDirection();
-            }
-            // if ball out of bounds (top) invert y-direction
-            if (ball.y < 0 && ball.ySpeed < 0) {
-              ball.invertYDirection();
-            }
-            // if ball out of bounds (bottom) remove
-            if (ball.y > this._canvas.height || ball.y < 0) {
-              removeBalls.push(ball);
-            }
             // if it hit the bar invert direction
-            if (this._bar.hitTestPoint(ball.x, ball.y)) {
+            if (this._bar.collided(ball.x, ball.y)) {
               ball.ySpeed = -Math.abs(ball.ySpeed);
             }
-
-            this._canvas.setPixel(ball.X(), ball.Y(), ball.color);
+            this._drawMovingParticle(ball, this._balls);
           }
         });
 
-        removeBalls.forEach(b => {
-          var index = this._balls.indexOf(b);
-          if (index != -1) {
-            this._balls.splice(index, 1);
-          }
-        });
-
-        var removeFallBs: Particle[] = new Array();
+        // set falling blocks pixels
         this._fallBlocks.forEach(fallP => {
-          fallP.ySpeed += 0.1;
-          fallP.x += fallP.xSpeed;
-          if (fallP.x < 0) {
-            fallP.x += this._canvas.width;
-          }
-          fallP.y += fallP.ySpeed;
-          this._canvas.setPixel(fallP.X(), fallP.Y(), fallP.color);
-
-          if (this._bar.hitTestPoint(fallP.x, fallP.y)) {
-            var newball: Particle = new Particle(fallP.x, fallP.y, fallP.color);
+          // if hit a bar remove and converto to new ball
+          if (this._bar.collided(fallP.x, fallP.y)) {
+            var newball: Particle = new Particle(fallP.x, this._canvas.height - this._bar.height + 1, fallP.color);
             newball.xSpeed = Math.random() * 10;
             newball.ySpeed = Math.random() * 9 + 1;
-            this._balls.push(newball);
-            removeFallBs.push(fallP);
-          } else if (fallP.y > this._canvas.height) {
-            removeFallBs.push(fallP);
+            console.log(newball.radian(), newball)
+            this._balls.add(newball);
+            this._fallBlocks.delete(fallP);
+          } else {
+            fallP.ySpeed += 0.1;
+            fallP.x += fallP.xSpeed;
+            fallP.y += fallP.ySpeed;
+            // Draw pixel
+            this._drawMovingParticle(fallP, this._fallBlocks);
           }
         });
 
-        removeFallBs.forEach(b => {
-          var index = this._fallBlocks.indexOf(b);
-          if (index != -1) {
-            this._fallBlocks.splice(index, 1);
-          }
-        });
-
-        // Draw
+        // Draw everything
         this._canvas.render();
       }
 
       if (this._blocks.count() == 0) {
         this._handleWin();
-      } else if (this._balls.length == 0) {
+      } else if (this._balls.size == 0) {
         this._handleLose();
       } else {
         window.requestAnimationFrame(this._update.bind(this));
@@ -163,9 +152,9 @@ class BlockBreaker {
   }
 
   public init() {
-    this._blocks = new Blocks(this._canvas.width, 200);
+    this._blocks = new Blocks(this._canvas.width, this._blocksAreaHeight);
 
-    this._fallBlocks = new Array();
+    this._fallBlocks = new Set<Particle>();
 
     const barHeight = 10;
     const barY = this._canvas.height - barHeight - 2;
@@ -176,8 +165,8 @@ class BlockBreaker {
     _initialBall.xSpeed = Math.random() * 10;
     _initialBall.ySpeed = Math.random() * 9 - 1;
 
-    this._balls = new Array();
-    this._balls.push(_initialBall);
+    this._balls = new Set<Particle>();
+    this._balls.add(_initialBall);
 
     this._fpsInterval = 1000 / this._fps;
     this._then = Date.now();
@@ -185,9 +174,9 @@ class BlockBreaker {
     window.requestAnimationFrame(this._update.bind(this));
   }
 
-  constructor(container: HTMLDivElement, canvas: HTMLCanvasElement) {
+  constructor(container: HTMLDivElement, canvas: HTMLCanvasElement, blocksAreaHeight: number) {
     this._canvas = new GameCanvas(canvas);
-
+    this._blocksAreaHeight = blocksAreaHeight;
     // Controll is the entire container area 
     container.addEventListener('mousemove', this._mousemove.bind(this), false);
     container.addEventListener('touchmove', this._touchmove.bind(this), false);

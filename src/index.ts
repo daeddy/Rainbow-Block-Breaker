@@ -11,7 +11,7 @@ window.addEventListener("load", (e) => {
 
   canvas.width = width;
   canvas.height = height;
-  const game = new BlockBreaker(container, canvas);
+  const game = new BlockBreaker(container, canvas, 100);
 
   game.init();
 });
