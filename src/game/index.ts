@@ -101,7 +101,7 @@ class BlockBreaker {
             var newball: Particle = new Particle(fallP.x, this._canvas.height - this._bar.height + 1, fallP.color);
             newball.xSpeed = Math.random() * 10;
             newball.ySpeed = Math.random() * 9 + 1;
-            console.log(newball.radian(), newball)
+
             this._balls.add(newball);
             this._fallBlocks.delete(fallP);
           } else {
