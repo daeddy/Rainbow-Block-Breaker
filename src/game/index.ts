@@ -174,7 +174,7 @@ class BlockBreaker {
 
     // Start with white ball in the middle
     var _initialBall: Particle = new Particle(this._width / 2, this._height / 2, DEFAULT_COLOR);
-    _initialBall.xSpeed = Math.random() * 100;
+    _initialBall.xSpeed = Math.random() * 10;
     _initialBall.ySpeed = Math.random() * 9 - 1;
 
     this._balls = new Array();

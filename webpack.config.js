@@ -2,12 +2,13 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const path = require('path');
 
-module.exports = {
+module.exports = (_, argv) => ({
   devtool: 'inline-source-map',
   entry: './src/index.ts',
   output: {
     filename: 'main.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    clean: true,
   },
   module: {
     rules: [
@@ -26,13 +27,11 @@ module.exports = {
       directory: path.join(__dirname, './')
     }
   },
+  devtool: argv.mode === "production" ? 'hidden-source-map' : 'eval',
   plugins: [
     new HtmlWebpackPlugin({
       template: "./index.html",
       favicon: "./images/favicon.ico"
     })
   ],
-  performance: {
-    hints: false
-  }
-};
+});
